@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Porte</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            max-height: 100px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .details {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .details th,
+        .details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .details th {
+            background-color: #f4f4f4;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .carta-porte-container {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .carta-porte-container h2 {
+            margin-top: 0;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="logo_empresa.png" alt="Logo de la Empresa">
+        <h1>Carta Porte</h1>
+    </div>
+
+    <div class="section">
+        <h2>Datos del Autotransporte</h2>
+        <table class="details">
+            <tr>
+                <th>Razón Social</th>
+                <td><input type="text" id="razonSocial" placeholder="Ingrese la razón social"></td>
+            </tr>
+            <tr>
+                <th>RFC</th>
+                <td><input type="text" id="rfc" placeholder="Ingrese el RFC"></td>
+            </tr>
+            <tr>
+                <th>Régimen Fiscal</th>
+                <td>
+                    <select id="regimenFiscal">
+                        <option value="">Seleccione una opción</option>
+                        <option value="601">601 - General de Ley Personas Morales</option>
+                        <option value="603">603 - Personas Morales con Fines Lucrativos</option>
+                        <option value="605">605 - Sueldos y Salarios</option>
+                        <option value="606">606 - Arrendamiento</option>
+                        <option value="607">607 - Regimen de Enajenacion o Adquicision de Bienes</option>
+                        <option value="608">608 - Demas ingresos</option>
+                        <option value="610">610 - Residentes en el Extranjero sin Estableciminto Permanente en Mexico
+                        </option>
+                        <option value="611">611 - Ingresos por Dividendos Socios o Accionistas</option>
+                        <option value="612">612 - Personas Fisicas con Actividades Empresariales y Profesioanles
+                        </option>
+                        <option value="614">614 - Ingresos por Interes</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Domicilio Fiscal</th>
+                <td><textarea id="domicilioFiscal" placeholder="Ingrese el domicilio fiscal"></textarea></td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td><input type="text" id="telefono" placeholder="Ingrese el teléfono"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Datos del Cliente</h2>
+        <table class="details">
+            <tr>
+                <th>Nombre</th>
+                <td><input type="text" id="nombreCliente" placeholder="Ingrese el nombre del cliente"></td>
+            </tr>
+            <tr>
+                <th>RFC</th>
+                <td><input type="text" id="rfcCliente" placeholder="Ingrese el RFC del cliente"></td>
+            </tr>
+            <tr>
+                <th>Domicilio Fiscal</th>
+                <td><textarea id="domicilioFiscalCliente"
+                        placeholder="Ingrese el domicilio fiscal del cliente"></textarea></td>
+            </tr>
+            <tr>
+                <th>Régimen Fiscal</th>
+                <td>
+                    <select id="regimenFiscalCliente">
+                        <option value="">Seleccione una opción</option>
+                        <option value="601">601 - General de Ley Personas Morales</option>
+                        <option value="603">603 - Personas Morales con Fines Lucrativos</option>
+                        <option value="605">605 - Sueldos y Salarios</option>
+                        <option value="606">606 - Arrendamiento</option>
+                        <option value="607">607 - Regimen de Enajenacion o Adquicision de Bienes</option>
+                        <option value="608">608 - Demas ingresos</option>
+                        <option value="610">610 - Residentes en el Extranjero sin Estableciminto Permanente en Mexico
+                        </option>
+                        <option value="611">611 - Ingresos por Dividendos Socios o Accionistas</option>
+                        <option value="612">612 - Personas Fisicas con Actividades Empresariales y Profesioanles
+                        </option>
+                        <option value="614">614 - Ingresos por Interes</option>
+
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Uso de CFDI</th>
+                <td>
+                    <select id="usoCFDI">
+                        <option value="">Seleccione una opción</option>
+                        <option value="G01">G01 - Adquisiciones de mercancia.</option>
+                        <option value="G02">G02 - Devolcuiones, descuentos o bonificaciones.</option>
+                        <option value="G03">G03 - Gastos en general.</option>
+                        <option value="l01">l01 - Contrucciones.</option>
+                        <option value="l02">l02 - Mobiliario y equipo de oficina por inversion.</option>
+                        <option value="l03">l03 - Equipo de transporte</option>
+                        <option value="l04">l04 - Equipo de computo y accesorios</option>
+                        <option value="l05">l05 - Dados,toquetes,moldes,matrices y herramental</option>
+                        <option value="l06">l06 - Comunicaciones Telefonicas</option>
+                        <option value="l07">l07 - Comunicacion satelitales</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Información del CFDI</h2>
+        <table class="details">
+            <tr>
+                <th>Folio Fiscal</th>
+                <td><input type="text" id="folioFiscal" placeholder="Ingrese el folio fiscal"></td>
+            </tr>
+            <tr>
+                <th>Lugar de Expedición</th>
+                <td><input type="text" id="lugarExpedicion" placeholder="Ingrese el lugar de expedición"></td>
+            </tr>
+            <tr>
+                <th>Fecha y Hora de Emisión</th>
+                <td><input type="datetime-local" id="fechaHoraEmision"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Transporte</h2>
+        <table class="details">
+            <tr>
+                <th>Transporte Internacional</th>
+                <td>
+                    <select id="transporteInternacional">
+                        <option value="">Seleccione una opción</option>
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Vía Ingreso o Salida</th>
+                <td>
+                    <select id="viaIngresoSalida">
+                        <option value="">Seleccione una opción</option>
+                        <option value="01">01 - Autotransporte</option>
+                        <option value="02">02 - Transporte Marítimo</option>
+                        <option value="03">03 - Transporte Aero</option>
+                        <option value="04">04 - Transporte Ferroviario</option>
+
+
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Régimen Aduanero</th>
+                <td>
+                    <select id="regimenAduanero">
+                        <option value="">Seleccione una opción</option>
+                        <option value="IMD"> IMD Definitivo de importacion.</option>
+                        <option value="EXD">EDX Definitivo de exportacion.</option>
+                        <option value="ITR">ITR Temporales de importacion para retomar al extranjero en el mismo estado.
+                        </option>
+                        <option value="ITE">ITE Temporales de importacion para elaboracion, transformacion o reparacion
+                            para empresas con programa</option>
+                        <option value="ETR">ETR Temporales de exportacion para retornar al pais en el mismo estado
+                        </option>
+                        <option value="ETE">ETE Temporales de exportacion para elaboracion, transformacion o reparacion
+                        </option>
+                        <option value="DFI">DFI Deposito Fiscal </option>
+                        <option value="RFE"> RFE Elaboracion, tranformacion o reparacion en recinto fiscalizado
+                        </option>
+                    </select>
+                </td>
+            </tr>
+
+
+            <tr>
+                <th>País de Origen o Destino</th>
+                <td>
+                    <select id="paisOrigenDestino">
+                        <option value="">Seleccione una opción</option>
+                        <option value="FA">FA - Francia</option>
+                        <option value="GAB">GAB - Gabón</option>
+                        <option value="AF">AF - Afganistán</option>
+                        <option value="AL">AL - Albania</option>
+                        <option value="DE">DE - Alemania</option>
+                        <option value="AD">AD - Andorra</option>
+                        <option value="AO">AO - Angola</option>
+                        <option value="AG">AG - Antigua y Barbuda</option>
+                        <option value="SA">SA - Arabia Saudita</option>
+                        <option value="AR">AR - Argentina</option>
+                        <option value="AM">AM - Armenia</option>
+                        <option value="AU">AU - Australia</option>
+                        <option value="AT">AT - Austria</option>
+                        <option value="AZ">AZ - Azerbaiyán</option>
+                        <option value="BS">BS - Bahamas</option>
+                        <option value="BD">BD - Bangladés</option>
+                        <option value="BB">BB - Barbados</option>
+                        <option value="BH">BH - Bahréin</option>
+                        <option value="BE">BE - Bélgica</option>
+                        <option value="BZ">BZ - Belice</option>
+                        <option value="BJ">BJ - Benín</option>
+                        <option value="BT">BT - Bután</option>
+                        <option value="BO">BO - Bolivia</option>
+                        <option value="BA">BA - Bosnia y Herzegovina</option>
+                        <option value="BW">BW - Botsuana</option>
+                        <option value="BR">BR - Brasil</option>
+                        <option value="BN">BN - Brunéi</option>
+                        <option value="BG">BG - Bulgaria</option>
+                        <option value="BF">BF - Burkina Faso</option>
+                        <option value="BI">BI - Burundi</option>
+                        <option value="CV">CV - Cabo Verde</option>
+                        <option value="KH">KH - Camboya</option>
+                        <option value="CM">CM - Camerún</option>
+                        <option value="CA">CA - Canadá</option>
+                        <option value="TD">TD - Chad</option>
+                        <option value="CL">CL - Chile</option>
+                        <option value="CN">CN - China</option>
+                        <option value="CY">CY - Chipre</option>
+                        <option value="CO">CO - Colombia</option>
+                        <option value="KM">KM - Comoras</option>
+                        <option value="CG">CG - Congo</option>
+                        <option value="KP">KP - Corea del Norte</option>
+                        <option value="KR">KR - Corea del Sur</option>
+                        <option value="CR">CR - Costa Rica</option>
+                        <option value="CI">CI - Costa de Marfil</option>
+                        <option value="HR">HR - Croacia</option>
+                        <option value="CU">CU - Cuba</option>
+                        <option value="DK">DK - Dinamarca</option>
+                        <option value="DM">DM - Dominica</option>
+                        <option value="EC">EC - Ecuador</option>
+                        <option value="EG">EG - Egipto</option>
+                        <option value="SV">SV - El Salvador</option>
+                        <option value="AE">AE - Emiratos Árabes Unidos</option>
+                        <option value="ER">ER - Eritrea</option>
+                        <option value="SK">SK - Eslovaquia</option>
+                        <option value="SI">SI - Eslovenia</option>
+                        <option value="ES">ES - España</option>
+                        <option value="US">US - Estados Unidos</option>
+                        <option value="EE">EE - Estonia</option>
+                        <option value="ET">ET - Etiopía</option>
+                        <option value="PH">PH - Filipinas</option>
+                        <option value="FI">FI - Finlandia</option>
+                        <option value="FJ">FJ - Fiyi</option>
+                        <option value="FR">FR - Francia</option>
+                        <option value="GA">GA - Gabón</option>
+                        <option value="GM">GM - Gambia</option>
+                        <option value="GE">GE - Georgia</option>
+                        <option value="GH">GH - Ghana</option>
+                        <option value="GR">GR - Grecia</option>
+                        <option value="GD">GD - Granada</option>
+                        <option value="GT">GT - Guatemala</option>
+                        <option value="GN">GN - Guinea</option>
+                        <option value="GW">GW - Guinea-Bisáu</option>
+                        <option value="GY">GY - Guyana</option>
+                        <option value="HT">HT - Haití</option>
+                        <option value="HN">HN - Honduras</option>
+                        <option value="HU">HU - Hungría</option>
+                        <option value="IN">IN - India</option>
+                        <option value="ID">ID - Indonesia</option>
+                        <option value="IR">IR - Irán</option>
+                        <option value="IQ">IQ - Irak</option>
+                        <option value="IE">IE - Irlanda</option>
+                        <option value="IS">IS - Islandia</option>
+                        <option value="IL">IL - Israel</option>
+                        <option value="IT">IT - Italia</option>
+                        <option value="JM">JM - Jamaica</option>
+                        <option value="JP">JP - Japón</option>
+                        <option value="JO">JO - Jordania</option>
+                        <option value="KZ">KZ - Kazajistán</option>
+                        <option value="KE">KE - Kenia</option>
+                        <option value="KG">KG - Kirguistán</option>
+                        <option value="KI">KI - Kiribati</option>
+                        <option value="KW">KW - Kuwait</option>
+                        <option value="LA">LA - Laos</option>
+                        <option value="LV">LV - Letonia</option>
+                        <option value="LB">LB - Líbano</option>
+                        <option value="LS">LS - Lesoto</option>
+                        <option value="LR">LR - Liberia</option>
+                        <option value="LY">LY - Libia</option>
+                        <option value="LI">LI - Liechtenstein</option>
+                        <option value="LT">LT - Lituania</option>
+                        <option value="LU">LU - Luxemburgo</option>
+                        <option value="MG">MG - Madagascar</option>
+                        <option value="MY">MY - Malasia</option>
+                        <option value="MW">MW - Malaui</option>
+                        <option value="MV">MV - Maldivas</option>
+                        <option value="ML">ML - Malí</option>
+                        <option value="MT">MT - Malta</option>
+                        <option value="MA">MA - Marruecos</option>
+                        <option value="MU">MU - Mauricio</option>
+                        <option value="MX">MX - México</option>
+                        <option value="FM">FM - Micronesia</option>
+                        <option value="MD">MD - Moldavia</option>
+                        <option value="MC">MC - Mónaco</option>
+                        <option value="MN">MN - Mongolia</option>
+                        <option value="ME">ME - Montenegro</option>
+                        <option value="MZ">MZ - Mozambique</option>
+                        <option value="MM">MM - Myanmar</option>
+                        <option value="NA">NA - Namibia</option>
+                        <option value="NR">NR - Nauru</option>
+                        <option value="NP">NP - Nepal</option>
+                        <option value="NI">NI - Nicaragua</option>
+                        <option value="NE">NE - Niger</option>
+                        <option value="NG">NG - Nigeria</option>
+                        <option value="NO">NO - Noruega</option>
+                        <option value="NZ">NZ - Nueva Zelanda</option>
+                        <option value="OM">OM - Omán</option>
+                        <option value="NL">NL - Países Bajos</option>
+                        <option value="PK">PK - Pakistán</option>
+                        <option value="PW">PW - Palaos</option>
+                        <option value="PA">PA - Panamá</option>
+                        <option value="PG">PG - Papúa Nueva Guinea</option>
+                        <option value="PY">PY - Paraguay</option>
+                        <option value="PE">PE - Perú</option>
+                        <option value="PL">PL - Polonia</option>
+                        <option value="PT">PT - Portugal</option>
+                        <option value="QA">QA - Catar</option>
+                        <option value="GB">GB - Reino Unido</option>
+                        <option value="CF">CF - República Centroafricana</option>
+                        <option value="CZ">CZ - República Checa</option>
+                        <option value="CD">CD - República Democrática del Congo</option>
+                        <option value="DO">DO - República Dominicana</option>
+                        <option value="RW">RW - Ruanda</option>
+                        <option value="RO">RO - Rumania</option>
+                        <option value="RU">RU - Rusia</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="button-container">
+        <button onclick="generateCartaPorte()">Generar Carta Porte</button>
+        <button onclick="downloadPDF()" style="display:none;" id="downloadBtn">Descargar PDF</button>
+    </div>
+
+    <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+    <div id="cartaPorte" class="carta-porte-container" style="display:none;">
+        <h2>Carta Porte Generada</h2>
+        <p><strong>Razón Social:</strong> <span id="resultRazonSocial"></span></p>
+        <p><strong>RFC:</strong> <span id="resultRFC"></span></p>
+        <p><strong>Régimen Fiscal:</strong> <span id="resultRegimenFiscal"></span></p>
+        <p><strong>Domicilio Fiscal:</strong> <span id="resultDomicilioFiscal"></span></p>
+        <p><strong>Teléfono:</strong> <span id="resultTelefono"></span></p>
+        <p><strong>Cliente:</strong> <span id="resultNombreCliente"></span></p>
+        <p><strong>RFC del Cliente:</strong> <span id="resultRFCCliente"></span></p>
+        <p><strong>Domicilio Fiscal del Cliente:</strong> <span id="resultDomicilioFiscalCliente"></span></p>
+        <p><strong>Régimen Fiscal del Cliente:</strong> <span id="resultRegimenFiscalCliente"></span></p>
+        <p><strong>Uso de CFDI:</strong> <span id="resultUsoCFDI"></span></p>
+        <p><strong>Folio Fiscal:</strong> <span id="resultFolioFiscal"></span></p>
+        <p><strong>Lugar de Expedición:</strong> <span id="resultLugarExpedicion"></span></p>
+        <p><strong>Fecha y Hora de Emisión:</strong> <span id="resultFechaHoraEmision"></span></p>
+        <p><strong>Transporte Internacional:</strong> <span id="resultTransporteInternacional"></span></p>
+        <p><strong>Vía Ingreso o Salida:</strong> <span id="resultViaIngresoSalida"></span></p>
+        <p><strong>Régimen Aduanero:</strong> <span id="resultRegimenAduanero"></span></p>
+        <p><strong>País de Origen o Destino:</strong> <span id="resultPaisOrigenDestino"></span></p>
+    </div>
+
+    <script>
+        function generateCartaPorte() {
+            const razonSocial = document.getElementById("razonSocial").value;
+            const rfc = document.getElementById("rfc").value;
+            const regimenFiscal = document.getElementById("regimenFiscal").value;
+            const domicilioFiscal = document.getElementById("domicilioFiscal").value;
+            const telefono = document.getElementById("telefono").value;
+            const nombreCliente = document.getElementById("nombreCliente").value;
+            const rfcCliente = document.getElementById("rfcCliente").value;
+            const domicilioFiscalCliente = document.getElementById("domicilioFiscalCliente").value;
+            const regimenFiscalCliente = document.getElementById("regimenFiscalCliente").value;
+            const usoCFDI = document.getElementById("usoCFDI").value;
+            const folioFiscal = document.getElementById("folioFiscal").value;
+            const lugarExpedicion = document.getElementById("lugarExpedicion").value;
+            const fechaHoraEmision = document.getElementById("fechaHoraEmision").value;
+            const transporteInternacional = document.getElementById("transporteInternacional").value;
+            const viaIngresoSalida = document.getElementById("viaIngresoSalida").value;
+            const regimenAduanero = document.getElementById("regimenAduanero").value;
+            const paisOrigenDestino = document.getElementById("paisOrigenDestino").value;
+
+            if (!razonSocial || !rfc || !regimenFiscal || !domicilioFiscal || !telefono ||
+                !nombreCliente || !rfcCliente || !domicilioFiscalCliente || !regimenFiscalCliente ||
+                !usoCFDI || !folioFiscal || !lugarExpedicion || !fechaHoraEmision || !transporteInternacional || !viaIngresoSalida || !regimenAduanero || !paisOrigenDestino) {
+                document.getElementById("errorMessage").style.display = "block";
+                document.getElementById("errorMessage").textContent = "Todos los campos son obligatorios.";
+                return;
+            }
+
+            document.getElementById("errorMessage").style.display = "none";
+
+            // Mostrar el resultado
+            document.getElementById("resultRazonSocial").textContent = razonSocial;
+            document.getElementById("resultRFC").textContent = rfc;
+            document.getElementById("resultRegimenFiscal").textContent = regimenFiscal;
+            document.getElementById("resultDomicilioFiscal").textContent = domicilioFiscal;
+            document.getElementById("resultTelefono").textContent = telefono;
+            document.getElementById("resultNombreCliente").textContent = nombreCliente;
+            document.getElementById("resultRFCCliente").textContent = rfcCliente;
+            document.getElementById("resultDomicilioFiscalCliente").textContent = domicilioFiscalCliente;
+            document.getElementById("resultRegimenFiscalCliente").textContent = regimenFiscalCliente;
+            document.getElementById("resultUsoCFDI").textContent = usoCFDI;
+            document.getElementById("resultFolioFiscal").textContent = folioFiscal;
+            document.getElementById("resultLugarExpedicion").textContent = lugarExpedicion;
+            document.getElementById("resultFechaHoraEmision").textContent = fechaHoraEmision;
+            document.getElementById("resultTransporteInternacional").textContent = transporteInternacional;
+            document.getElementById("resultViaIngresoSalida").textContent = viaIngresoSalida;
+            document.getElementById("resultRegimenAduanero").textContent = regimenAduanero;
+            document.getElementById("resultPaisOrigenDestino").textContent = paisOrigenDestino;
+
+            document.getElementById("cartaPorte").style.display = "block";
+            document.getElementById("downloadBtn").style.display = "inline-block";
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.text("Carta Porte", 20, 20);
+            doc.text("Razón Social: " + document.getElementById("resultRazonSocial").textContent, 20, 30);
+            doc.text("RFC: " + document.getElementById("resultRFC").textContent, 20, 40);
+            doc.text("Régimen Fiscal: " + document.getElementById("resultRegimenFiscal").textContent, 20, 50);
+            doc.text("Domicilio Fiscal: " + document.getElementById("resultDomicilioFiscal").textContent, 20, 60);
+            doc.text("Teléfono: " + document.getElementById("resultTelefono").textContent, 20, 70);
+            doc.text("Cliente: " + document.getElementById("resultNombreCliente").textContent, 20, 80);
+            doc.text("RFC del Cliente: " + document.getElementById("resultRFCCliente").textContent, 20, 90);
+            doc.text("Domicilio Fiscal del Cliente: " + document.getElementById("resultDomicilioFiscalCliente").textContent, 20, 100);
+            doc.text("Régimen Fiscal del Cliente: " + document.getElementById("resultRegimenFiscalCliente").textContent, 20, 110);
+            doc.text("Uso de CFDI: " + document.getElementById("resultUsoCFDI").textContent, 20, 120);
+            doc.text("Folio Fiscal: " + document.getElementById("resultFolioFiscal").textContent, 20, 130);
+            doc.text("Lugar de Expedición: " + document.getElementById("resultLugarExpedicion").textContent, 20, 140);
+            doc.text("Fecha y Hora de Emisión: " + document.getElementById("resultFechaHoraEmision").textContent, 20, 150);
+            doc.text("Transporte Internacional: " + document.getElementById("resultTransporteInternacional").textContent, 20, 160);
+            doc.text("Vía Ingreso o Salida: " + document.getElementById("resultViaIngresoSalida").textContent, 20, 170);
+            doc.text("Régimen Aduanero: " + document.getElementById("resultRegimenAduanero").textContent, 20, 180);
+            doc.text("País de Origen o Destino: " + document.getElementById("resultPaisOrigenDestino").textContent, 20, 60);
+
+            doc.save("CartaPorte.pdf");
+        }
+    </script>
+</body>
+
+</html>
