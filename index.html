@@ -430,6 +430,30 @@
         </table>
     </div>
 
+
+
+
+
+    <div class="section">
+        <h2>Ubicación</h2>
+        <table class="details">
+            <tr>
+                <th>Tipo de Ubicación</th>
+                <td>
+                    <select id="tipoUbicacion">
+                        <option value="">Seleccione una opción</option>
+                        <option value="Origen">Origen</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+
+
+
+
+
     <div class="button-container">
         <button onclick="generateCartaPorte()">Generar Carta Porte</button>
         <button onclick="downloadPDF()" style="display:none;" id="downloadBtn">Descargar PDF</button>
@@ -456,6 +480,9 @@
         <p><strong>Vía Ingreso o Salida:</strong> <span id="resultViaIngresoSalida"></span></p>
         <p><strong>Régimen Aduanero:</strong> <span id="resultRegimenAduanero"></span></p>
         <p><strong>País de Origen o Destino:</strong> <span id="resultPaisOrigenDestino"></span></p>
+        <p><strong>Tipo de Ubicación:</strong> <span id="resultTipoUbicacion"></span></p>
+
+        
     </div>
 
     <script>
@@ -477,10 +504,11 @@
             const viaIngresoSalida = document.getElementById("viaIngresoSalida").value;
             const regimenAduanero = document.getElementById("regimenAduanero").value;
             const paisOrigenDestino = document.getElementById("paisOrigenDestino").value;
+            const tipoUbicacion = document.getElementById("tipoUbicacion").value;
 
             if (!razonSocial || !rfc || !regimenFiscal || !domicilioFiscal || !telefono ||
                 !nombreCliente || !rfcCliente || !domicilioFiscalCliente || !regimenFiscalCliente ||
-                !usoCFDI || !folioFiscal || !lugarExpedicion || !fechaHoraEmision || !transporteInternacional || !viaIngresoSalida || !regimenAduanero || !paisOrigenDestino) {
+                !usoCFDI || !folioFiscal || !lugarExpedicion || !fechaHoraEmision || !transporteInternacional || !viaIngresoSalida || !regimenAduanero || !paisOrigenDestino || !tipoUbicacion) {
                 document.getElementById("errorMessage").style.display = "block";
                 document.getElementById("errorMessage").textContent = "Todos los campos son obligatorios.";
                 return;
@@ -506,6 +534,7 @@
             document.getElementById("resultViaIngresoSalida").textContent = viaIngresoSalida;
             document.getElementById("resultRegimenAduanero").textContent = regimenAduanero;
             document.getElementById("resultPaisOrigenDestino").textContent = paisOrigenDestino;
+            document.getElementById("resultTipoUbicacion").textContent = tipoUbicacion;
 
             document.getElementById("cartaPorte").style.display = "block";
             document.getElementById("downloadBtn").style.display = "inline-block";
@@ -533,6 +562,7 @@
             doc.text("Vía Ingreso o Salida: " + document.getElementById("resultViaIngresoSalida").textContent, 20, 170);
             doc.text("Régimen Aduanero: " + document.getElementById("resultRegimenAduanero").textContent, 20, 180);
             doc.text("País de Origen o Destino: " + document.getElementById("resultPaisOrigenDestino").textContent, 20, 60);
+            doc.text("Tipo de Ubicación: " + document.getElementById("resultTipoUbicacion").textContent, 20, 180);
 
             doc.save("CartaPorte.pdf");
         }
